@@ -168,7 +168,7 @@ find_gbif <- function(sp, parallel = FALSE, n_cores = 6, alternative = FALSE) {
       }
     }
     if (ans$data$matchType != "NONE") {
-      if (nrow(ans$alternatives) == 0 | !alternative) {
+      if (nrow(ans$alternatives) == 0 & !alternative) {
         return(gbif_table(ans$data[1, ]))
       } else {
         return(gbif_table(ans$alternatives[1, ]))
