@@ -127,15 +127,13 @@ fix_typos <- function(sp, parallel = FALSE, n_cores = 6) {
 gbif_table <- function(df) {
   ans <- data.frame(
     key = df$usageKey,
-    name = df$canonicalName,
+    canonical.name = df$canonicalName,
     rank = tolower(df$rank),
     status = tolower(df$status),
     kingdom = df$kingdom,
     phylum = df$phylum,
     order = df$order,
-    family = df$family,
-    genus = df$genus,
-    species = df$species
+    family = df$family
   )
   return(ans)
 }
