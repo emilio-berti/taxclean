@@ -164,11 +164,10 @@ find_gbif <- function(sp, parallel = FALSE, n_cores = 6, alternative = FALSE) {
         warning("No alternative found in GBIF")
         return(NA)
       } else {
-        return(gbif_table(ans$data[1, ]))
+        return(gbif_table(ans$alternatives[1, ]))
       }
-    }
-    if (ans$data$matchType != "NONE") {
-      if (nrow(ans$alternatives) == 0 & !alternative) {
+    } else {
+      if (!alternative) {
         return(gbif_table(ans$data[1, ]))
       } else {
         return(gbif_table(ans$alternatives[1, ]))
