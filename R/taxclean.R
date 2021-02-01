@@ -126,14 +126,16 @@ fix_typos <- function(sp, parallel = FALSE, n_cores = 6) {
 #' @return a data.frame table with taxonomic information
 gbif_table <- function(df) {
   ans <- data.frame(
-    key = df$usageKey,
-    canonical.name = df$canonicalName,
-    rank = tolower(df$rank),
-    status = tolower(df$status),
-    kingdom = df$kingdom,
-    phylum = df$phylum,
-    order = df$order,
-    family = df$family
+    key = ifelse("usageKey" %in% names(df), df$usageKey, NA),
+    name = ifelse("canonicalName" %in% names(df), df$canonicalName, NA),
+    rank = ifelse("rank" %in% names(df), tolower(df$rank), NA),
+    status = ifelse("status" %in% names(df), tolower(df$status), NA),
+    kingdom = ifelse("kingdom" %in% names(df), df$kingdom, NA),
+    phylum = ifelse("phylum" %in% names(df), df$phylum, NA),
+    order = ifelse("order" %in% names(df), df$order, NA),
+    family = ifelse("family" %in% names(df), df$family, NA),
+    genus = ifelse("genus" %in% names(df), df$genus, NA),
+    species = ifelse("species" %in% names(df), df$species, NA)
   )
   return(ans)
 }
