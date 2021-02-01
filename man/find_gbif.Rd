@@ -5,7 +5,7 @@
 \title{Get GBIF taxonomy
 Retrieve GBIF taxonomy using the rgbif package.}
 \usage{
-find_gbif(sp, parallel = FALSE, n_cores = 6)
+find_gbif(sp, parallel = FALSE, n_cores = 6, alternative = FALSE)
 }
 \arguments{
 \item{sp}{species name.}
@@ -13,6 +13,8 @@ find_gbif(sp, parallel = FALSE, n_cores = 6)
 \item{parallel}{logical, weather to parallelize or not.}
 
 \item{n_cores}{number of cores to use in parallilization.}
+
+\item{alternative}{logical; TRUE return alternative instead of main result.}
 }
 \value{
 a string with the species name taxonomy suggested by GBIF.

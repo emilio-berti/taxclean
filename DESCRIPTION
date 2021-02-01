@@ -1,5 +1,4 @@
 Package: taxclean
-Type: TaxClean
 Title: Clean taxonomy using regex, taxize, and rgbif
 Version: 0.1.0
 Author: Who wrote it

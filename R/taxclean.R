@@ -121,19 +121,39 @@ fix_typos <- function(sp, parallel = FALSE, n_cores = 6) {
     return(ans)
   }
 }
+#' @title make table from GBIF data
+#' @param df GBIF data.frame
+#' @return a data.frame table with taxonomic information
+gbif_table <- function(df) {
+  ans <- data.frame(
+    key = df$usageKey,
+    name = df$canonicalName,
+    rank = tolower(df$rank),
+    status = tolower(df$status),
+    kingdom = df$kingdom,
+    phylum = df$phylum,
+    order = df$order,
+    family = df$family,
+    genus = df$genus,
+    species = df$species
+  )
+  return(ans)
+}
 #' @title Get GBIF taxonomy
 #' Retrieve GBIF taxonomy using the rgbif package.
 #' @inherit rm_typos
+#' @param alternative logical; TRUE return alternative instead of main result.
 #' @return a string with the species name taxonomy suggested by GBIF.
-find_gbif <- function(sp, parallel = FALSE, n_cores = 6) {
+find_gbif <- function(sp, parallel = FALSE, n_cores = 6, alternative = FALSE) {
   if (length(sp) > 1) {
     if (parallel) {
       ans <- parallel::mclapply(sp, find_gbif, mc.cores = n_cores)
-      return(unlist(ans))
+      ans <- do.call("rbind", ans)
+      return(ans)
     } else {
       ans <- c()
       for (i in seq_len(length(sp))) {
-        ans <- append(ans, find_gbif(sp[i]))
+        ans <- rbind(ans, find_gbif(sp[i]))
       }
       return(ans)
     }
@@ -144,14 +164,14 @@ find_gbif <- function(sp, parallel = FALSE, n_cores = 6) {
         warning("No alternative found in GBIF")
         return(NA)
       } else {
-        return(ans$alternatives$canonicalName[1])
+        return(gbif_table(ans$data[1, ]))
       }
     }
     if (ans$data$matchType != "NONE") {
-      if (nrow(ans$alternatives) == 0) {
+      if (nrow(ans$alternatives) == 0 | !alternative) {
         return(ans$data$canonicalName)
       } else {
-        return(ans$alternatives$canonicalName[1])
+        return(gbif_table(ans$alternatives[1, ]))
       }
     }
   }
