@@ -1,0 +1,5 @@
+Verify accepted taxonomic nomenclature of phytoplankton species, assigns pecies to functional group classifications, and manipulate taxonomic and functional diversity data.
+
+Online database: algaebase.
+
+Contains functions for manipulating abundance and time series data.
