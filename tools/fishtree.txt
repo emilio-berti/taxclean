@@ -1,0 +1,5 @@
+Contains functionalities for phylogenetic anaylses.
+
+Online database: The Fish Tree of Life.
+
+Note: Juan is more familiar with fishses, maybe he can have a look at this?
