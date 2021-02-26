@@ -2,4 +2,4 @@ An interface to the 'Open Tree of Life' API to retrieve phylogenetic trees, info
 
 Online database: Open Tree of Life
 
-Note: quite nice, but functions operated on a custom class that is not super user-friendly.
+Note: quite nice, but functions operate on a custom class that is not super user-friendly.
