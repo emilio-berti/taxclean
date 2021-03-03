@@ -7,7 +7,7 @@ databases <- c("col", "gbif", "ncbi", "itis", "tpl", "wfo", "wikidata")
 # col --------
 db_download_col(overwrite = FALSE)
 conn <- DBI::dbConnect(RSQLite::SQLite(), path = src_col()$con@dbname)
-# NEED TO UNDERSTAND THE SQL TABLE
+col <- sql_collect(src_col(), "SELECT DISTINCT * FROM taxa")$`dwc:scientificName`
 
 # gbif ------
 db_download_gbif(overwrite = FALSE)
@@ -27,8 +27,8 @@ wfo <- sql_collect(src_wfo(), "SELECT DISTINCT scientificName FROM wfo")$scienti
 # compute overlaps ------
 overlaps <- t(combn(databases, 2)) %>%
   as_tibble() %>%
-  filter(V1 %in% c("itis", "wfo", "gbif"),
-         V2 %in% c("itis", "wfo", "gbif")) %>%
+  filter(V1 %in% c("itis", "wfo", "gbif", "col"),
+         V2 %in% c("itis", "wfo", "gbif", "col")) %>%
   mutate(common_species_n = modify2(V1, V2, function(x, y) {
     length(intersect(get(x), get(y)))
   }))

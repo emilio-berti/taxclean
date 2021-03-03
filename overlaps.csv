@@ -1,4 +1,7 @@
 V1,V2,common_species_n
+col,gbif,2783750
+col,itis,49061
+col,wfo,16268
 gbif,itis,42543
 gbif,wfo,15847
 itis,wfo,99139
