@@ -1,16 +1,28 @@
+# function to append the correct function to the R script
+source("R/pipe_function.R")
+# packages chosen
 pkgs <- c("rgnparser", "rotl", "algaeClassify")
-
+# file to write the R script
 file <- "pipelines/template.R"
-
-writeLines(
-  text = c(
-    paste0('source("R/', pkgs, '.R")'),
-    '# load here you dataset',
-    'd <- read.csv("datasets.csv")[, 1] #rename this',
-    'ans <- tc_rgnparser(d)',
-    'ans <- tc_rotl(ans$canonicalfull)',
-    'ans <- tc_algaeClassify(ans$scientific_name)',
-    'write.csv(ans, "pipelines/pipeline_result.csv")'
-  ),
-  con = file
-)
+write(paste0('source("R/', pkgs, '.R")'), file, append = FALSE)
+write('# load here you dataset', file, append = TRUE)
+write('d <- read.csv("datasets.csv")[, 1] #rename this', file, append = TRUE)
+# output from rgnparser is not standard with other functions.
+# this also writes the call of the first tc_function, which takes the dataset as input.
+if (pkgs[1] == "rgnparser") {
+  write('message("RGNparser")', file, append = TRUE)
+  write('ans <- tc_rgnparser(d)', file, append = TRUE)
+  write(paste0('message("', pkgs[2], '")'), file, append = TRUE)
+  write(paste0('ans <- ', pipe_function(pkgs[2], after_gnr = TRUE)), file, append = TRUE)
+  pkgs <- setdiff(pkgs, pkgs[1])
+} else {
+  write(paste0('message("', pkgs[1], '")'), file, append = TRUE)
+  write(paste0('ans <- ', pipe_function(pkgs[1], first = TRUE)), file, append = TRUE)
+}
+# iterate over all pacakges, except first one (rgnparser is already removed, if
+# present originally).
+for (x in setdiff(pkgs, pkgs[1])) {
+  write(paste0('message("', x, '")'), file, append = TRUE)
+  write(paste0('ans <- ', pipe_function(x)), file, append = TRUE)
+}
+write('write.csv(ans, "pipelines/pipeline_result.csv")', file, append = TRUE)
