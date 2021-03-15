@@ -1,9 +1,15 @@
 # function to append the correct function to the R script
 source("R/pipe_function.R")
 # packages chosen
-pkgs <- c("rgnparser", "rotl", "algaeClassify")
+pkgs <- c("rotl", "rgnparser", "algaeClassify") #this would be the output of the choice made using the GUI.
+# rgnparser always first
+if ("rgnparser" %in% pkgs) {
+  pkgs <- append("rgnparser", pkgs)
+  pkgs <- pkgs[-which(pkgs == "rgnparser")[2]]
+}
 # file to write the R script
 file <- "pipelines/template.R"
+# writing the script -----------
 write(paste0('source("R/', pkgs, '.R")'), file, append = FALSE)
 write('# load here you dataset', file, append = TRUE)
 write('d <- read.csv("datasets.csv")[, 1] #rename this', file, append = TRUE)
