@@ -8,7 +8,6 @@ tc_rgnparser <- function(
   if (all(is.null(d), is.null(path))) {
     stop("At least one of 'd' or 'path' must be specified")
   }
-  d <- read.csv("datasets.csv")[, 1]
   ans <- rgnparser::gn_parse_tidy(d)
   ans <- ans[, c("canonicalfull", "authorship", "year")]
   if (write) {

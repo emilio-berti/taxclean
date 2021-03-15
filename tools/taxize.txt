@@ -1,7 +1,0 @@
-Official user manual: https://taxize.dev
-
-taxize interacts with a suite of web APIs for taxonomic tasks, such as getting database specific taxonomic identifiers, verifying species names, getting taxonomic hierarchies, fetching downstream and upstream taxonomic names, getting taxonomic synonyms, converting scientific to common names and vice versa, and more.
-
-Online databases: https://taxize.dev/data-sources.html
-
-Note: from the manual "taxizedb arose out of a few things. First, some of the data sources used in taxize also provide complete dumps of all their data, usually as SQL databases. Second, when a user has a lot of operations to do, taxize can leave the user feeling like there could be a faster solution. That thing is taxizedb."

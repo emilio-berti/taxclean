@@ -1,3 +1,0 @@
-Online database: Integrated Taxonomic Information System (ITIS)
-
-Note: This is quite powerful and useful to get all possible taxa matched with a string. I made some code to be more user-friendly.

@@ -1,1 +1,0 @@
-Note: this is supposed to be used with SQL commands. I have to say I run SQL commands in bash, so not entirely sure how to run them in R. Is someone familiar with it?

@@ -1,12 +1,16 @@
-source("tools/algaeClassify.R")
-source("tools/rotl.R")
-source("tools/rgnparser.R")
+pkgs <- c("rgnparser", "rotl", "algaeClassify")
 
-library(magrittr)
-library(dplyr)
+file <- "pipelines/template.R"
 
-d <- read.csv("datasets.csv")[, 1]
-d %>%
-  tc_rgnparser() %>%
-  pull(canonicalfull) %>%
-  tc_rotl()
+writeLines(
+  text = c(
+    paste0('source("R/', pkgs, '.R")'),
+    '# load here you dataset',
+    'd <- read.csv("datasets.csv")[, 1] #rename this',
+    'ans <- tc_rgnparser(d)',
+    'ans <- tc_rotl(ans$canonicalfull)',
+    'ans <- tc_algaeClassify(ans$scientific_name)',
+    'write.csv(ans, "pipelines/pipeline_result.csv")'
+  ),
+  con = file
+)

@@ -1,9 +1,0 @@
-FinBIF aggregates Finnish biodiversity data from multiple sources in a single open access portal for researchers, citizen scientists, industry and government.
-
-Online database: Finnish biodiversity data from multiple sources.
-
-Occurence data available.
-
-Note: to me taxonomy in this package is a very minor component.
-
-Use in example: YES.

@@ -10,7 +10,7 @@ tc_algaeClassify <- function(
   }
   # compare with algaebase online database
   # algae_search(d$Dataset1[4], long = TRUE) #preferred for one species
-  d$phyto_name <- d$Dataset1 #rename for database search
+  d <- data.frame(phyto_name = d) #rename for database search
   ans <- algaeClassify::spp_list_algaebase(d, long = TRUE) #preferred for multiple species data.frame
   ans$search_name <- ans$orig.name
   ans$scientific_name <- ans$match.name

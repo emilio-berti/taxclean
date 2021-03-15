@@ -1,7 +1,0 @@
-An interface to the Fish Tree of Life API to download taxonomies, phylogenies, fossil calibrations, and diversification rate information for ray-finned fishes.
-
-Contains functionalities for phylogenetic anaylses.
-
-Online database: The Fish Tree of Life.
-
-Note: taxonomy is from rfishbase in the vignette.
