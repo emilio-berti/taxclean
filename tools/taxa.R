@@ -6,7 +6,3 @@ sources <- data.frame(
 	database_list[[x]]$description
 	}))
 )
-
-a = taxon_name("Panthera", "ncbi")
-a
-taxon_id(124, "ncbi")

@@ -1,23 +1,20 @@
-library(rotl)
-
-# species to search
-sp <- c("Alyssum bertolonii",
-        "Caracal carcal",
-        "Panthera leo",
-        "Carcharodon carcharias")
-# parse Taxonomic Name Resolution Service
-d <- tnrs_match_names(sp, do_approximate_matching = FALSE) #no fuzzy
-fuzzy <- tnrs_match_names(setdiff(tolower(sp), d$search_string[!is.na(d$ott_id)]))
-d <- d[!is.na(d$ott_id), ]
-# get synonyms
-synonyms <- c(synonyms(d), synonyms(fuzzy))
-# combine everything together
-d <- rbind(
-  cbind(d, rank = unlist(tax_rank(d)), fuzzy = FALSE),
-  cbind(fuzzy, rank = unlist(tax_rank(fuzzy)), fuzzy = TRUE)
-)
-d$syns <- synonyms
-rownames(d) <- NULL
-# results
-d[, -which(colnames(d) == "syns")]
-
+#' @param d data.frame with species names
+#' @param path location of the data.frame with species names
+tc_rotl <- function(
+  d = NULL,
+  path = NULL,
+  write = FALSE
+) {
+  if (all(is.null(d), is.null(path))) {
+    stop("At least one of 'd' or 'path' must be specified")
+  }
+  matched <- rotl::tnrs_match_names(d, do_approximate_matching = FALSE) #no fuzzy
+  ans <- matched
+  ans$search_name <-  ans$search_string
+  ans$scientific_name <- ans$unique_name
+  ans <- ans[, c("search_name", "scientific_name")]
+  if (write) {
+    write.csv(ans, "results/rotl.csv")
+  }
+  return(ans)
+}

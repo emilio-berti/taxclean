@@ -5,3 +5,5 @@ Online database: Finnish biodiversity data from multiple sources.
 Occurence data available.
 
 Note: to me taxonomy in this package is a very minor component.
+
+Use in example: YES.

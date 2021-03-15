@@ -3,3 +3,5 @@ The aim of vegtable is to provide a way for handling databases stored in Turbove
 Species lists in vegtable objects are handled by the package taxlist, thus I will recommend to take a look on it.
 
 This package has been developed as a tool handling data stored in SWEA-Dataveg. Further development is running in the context of the project GlobE-wetlands.
+
+Use in example: NO.

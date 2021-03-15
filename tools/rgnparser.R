@@ -1,5 +1,18 @@
-library(rgnparser)
-
-sp <- read.csv("datasets.csv")
-d <- gn_parse_tidy(sp$Dataset1)
-d[, c("canonicalfull", "authorship", "year")]
+#' @param d data.frame with species names
+#' @param path location of the data.frame with species names
+tc_rgnparser <- function(
+  d = NULL,
+  path = NULL,
+  write = FALSE
+) {
+  if (all(is.null(d), is.null(path))) {
+    stop("At least one of 'd' or 'path' must be specified")
+  }
+  d <- read.csv("datasets.csv")[, 1]
+  ans <- rgnparser::gn_parse_tidy(d)
+  ans <- ans[, c("canonicalfull", "authorship", "year")]
+  if (write) {
+    write.csv(ans, "results/rgnparser.csv")
+  }
+  return(ans)
+}

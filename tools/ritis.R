@@ -1,6 +1,7 @@
 library(ritis)
 
-d <- search_scientific("Alyssum")
+sp <- read.csv("datasets.csv")[2, 1]
+d <- search_scientific(sp)
 d[, c("author", "combinedName")]
 # get only valid usage tsn
 us <- lapply(d$tsn, "usage")

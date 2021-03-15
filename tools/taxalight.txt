@@ -1,0 +1,5 @@
+Creates a local Lightning Memory-Mapped Database ('LMDB') of many commonly used taxonomic authorities and provides functions that can quickly query this data. Supported taxonomic authorities include the Integrated Taxonomic Information System ('ITIS'), National Center for Biotechnology Information ('NCBI'), Global Biodiversity Information Facility ('GBIF'), Catalogue of Life ('COL'), and Open Tree Taxonomy ('OTT'). Name and identifier resolution using 'LMDB' can be hundreds of times faster than either relational databases or internet-based queries. Precise data provenance information for data derived from naming providers is also included.
+
+This seems similar to taxadb to me, with the exception that taxalight create a local database that is deleted when the session ends rather than in the cache folder. Maybe it's a bit faster to download the databases.
+
+Online database: itis, ncbi, gbif, col, ott
