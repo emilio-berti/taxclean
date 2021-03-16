@@ -21,7 +21,16 @@ write_pipeline <- function(
     pkgs <- pkgs[-which(pkgs == "rgnparser")[2]]
   }
   # writing the script -----------
-  write(paste0('source("R/', pkgs, '.R")'), pipeline_script, append = FALSE)
+  write("##### Code generated automatically #####", pipeline_script, append = FALSE)
+  # instead of writing 'source(...)' I changed to append all function code
+  # in one script.
+  #write(paste0('source("R/', pkgs, '.R")'), pipeline_script, append = FALSE)
+  con <- file(pipeline_script, open = "a")
+  for (x in pkgs) {
+    txt <- readLines(paste0("R/", x, ".R"))
+    writeLines(txt, con)
+  }
+  close(con)
   write('# load here you dataset', pipeline_script, append = TRUE)
   write('d <- read.csv("datasets.csv")[, 1] #rename this', pipeline_script, append = TRUE)
   # output from rgnparser is not standard with other functions.
