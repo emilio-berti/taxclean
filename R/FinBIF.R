@@ -22,7 +22,7 @@ tc_FinBIF <- function(
   })
   ans <- do.call("rbind", ans)
   if (write) {
-    write.csv("results/FinBIF.csv")
+    write.csv(ans, "results/FinBIF.csv")
   }
   return(ans)
 }
