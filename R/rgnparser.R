@@ -1,12 +1,11 @@
-#' @param d data.frame with species names
-#' @param path location of the data.frame with species names
+#' @param d string vector of species names
+#' @param write TRUE/FALSE if to write the function output
 tc_rgnparser <- function(
   d = NULL,
-  path = NULL,
   write = FALSE
 ) {
-  if (all(is.null(d), is.null(path))) {
-    stop("At least one of 'd' or 'path' must be specified")
+  if (is.null(d)) {
+    stop("No input species")
   }
   ans <- rgnparser::gn_parse_tidy(d)
   ans <- ans[, c("canonicalfull", "authorship", "year")]

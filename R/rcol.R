@@ -1,10 +1,12 @@
-#' @param d data.frame with species names
-#' @param path location of the data.frame with species names
+#' @param d string vector of species names
+#' @param write TRUE/FALSE if to write the function output
 tc_rcol <- function(
   d = NULL,
-  path = NULL,
   write = FALSE
 ) {
+  if (is.null(d)) {
+    stop("No input species")
+  }
   # check available databases and keys
   # data.frame(
   # 	database = cp_datasets()$result$title,
@@ -26,5 +28,8 @@ tc_rcol <- function(
     }
   })
   ans <- do.call("rbind", ans)
+  if (write) {
+    write.csv(ans, "results/rcol.csv")
+  }
   return(ans)
 }

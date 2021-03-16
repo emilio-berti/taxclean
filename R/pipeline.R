@@ -3,7 +3,7 @@
 #' @param pkgs packages to call sequentially.
 #' @param pipeline_script file where to write the R code.
 write_pipeline <- function(
-  pkgs = c("rotl", "rgnparser", "algaeClassify"), #NULL,
+  pkgs = c("rotl", "rgnparser", "FinBIF"), #NULL,
   pipeline_script = "pipelines/template.R" #NULL
 ) {
   if (is.null(pkgs)) {
