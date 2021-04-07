@@ -11,13 +11,17 @@ tc_FinBIF <- function(
   token <- read.csv("~/Documents/finbif.txt", header = FALSE)
   Sys.setenv(FINBIF_ACCESS_TOKEN = token$V1)
   ans <- lapply(d, function(x) {
-    ans <- finbif::finbif_taxa(x, type = "exact")
-    if (length(ans$content) > 0) {
-      data.frame(search_name = x,
-                 scientific_name = ans$content[[1]]$scientificName)
+    if (is.na(x)) {
+      data.frame(search_name = x, scientific_name = NA)
     } else {
-      data.frame(search_name = x,
-                 scientific_name = NA)
+      ans <- finbif::finbif_taxa(x, type = "exact")
+      if (length(ans$content) > 0) {
+        data.frame(search_name = x,
+                   scientific_name = ans$content[[1]]$scientificName)
+      } else {
+        data.frame(search_name = x,
+                   scientific_name = NA)
+      }
     }
   })
   ans <- do.call("rbind", ans)

@@ -14,17 +14,21 @@ tc_rcol <- function(
   # 	name = cp_datasets()$result$alias
   # )
   ans <- lapply(d, function(x) {
-    res <- rcol::cp_nu_search(x, 3)$result[1, ] #Col working draft
-    if (length(res) == 0) {
-      data.frame(
-        search_name = x,
-        scientific_name = NA
-      )
+    if (is.na(x)) {
+      data.frame(search_name = x, scientific_name = NA)
     } else {
-      data.frame(
-        search_name = x,
-        scientific_name = res$usage$name$scientificName
-      )
+      res <- rcol::cp_nu_search(x, 3)$result[1, ] #Col working draft
+      if (length(res) == 0) {
+        data.frame(
+          search_name = x,
+          scientific_name = NA
+        )
+      } else {
+        data.frame(
+          search_name = x,
+          scientific_name = res$usage$name$scientificName
+        )
+      }
     }
   })
   ans <- do.call("rbind", ans)

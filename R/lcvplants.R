@@ -8,10 +8,18 @@ tc_lcvplants <- function(
     stop("No input species")
   }
   # the default parallel version works very slow
-  ans <- suppressMessages(lapply(d, lcvplants::LCVP))
+  ans <- lapply(d, function(x) {
+    if (is.na(x)) {
+      data.frame(Genus = "", Species = "")
+    } else {
+      ans <- suppressMessages(lcvplants::LCVP(x))
+      ans[1, c("Genus", "Species")]
+    }
+  })
   ans <- do.call("rbind", ans)
   ans$search_name <- d
   ans$scientific_name <- paste(ans$Genus, ans$Species)
+  ans$scientific_name[which(ans$Genus == "" & ans$Species == "")] <- NA
   ans <- ans[, c("search_name", "scientific_name")]
   if (write) {
     write.csv(ans, "results/lcvplants.csv")
