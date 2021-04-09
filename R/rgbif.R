@@ -4,7 +4,7 @@ tc_rgbif <- function(
   d = NULL,
   write = FALSE
 ) {
-  if (is.null(d)) {
+  if (is.null(d) | length(d) == 0) {
     stop("No input species")
   }
   ans <- lapply(d, function(x){

@@ -44,9 +44,9 @@ write_pipeline <- function(
   if (pkgs[1] == "rgnparser") {
     write('message("RGNparser")', pipeline_script, append = TRUE)
     write(paste0(
-      'ans <- tc_rgnparser(d, write = ',
+      'd <- tc_rgnparser(d, write = ',
       ifelse(write_intermediate_steps, 'TRUE', 'FALSE'),
-      ')'
+      ')$canonicalfull'
     ),
     pipeline_script,
     append = TRUE)

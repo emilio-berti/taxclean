@@ -4,7 +4,7 @@ tc_rredlist <- function(
   d = NULL,
   write = FALSE
 ) {
-  if (is.null(d)) {
+  if (is.null(d) | length(d) == 0) {
     stop("No input species")
   }
   if (!"IUCN_REDLIST_KEY" %in% names(Sys.getenv())) {

@@ -4,7 +4,7 @@ tc_zbank <- function(
   d = NULL,
   write = FALSE
 ) {
-  if (is.null(d)) {
+  if (is.null(d) | length(d) == 0) {
     stop("No input species")
   }
   source("R/orthographic_distance.R")

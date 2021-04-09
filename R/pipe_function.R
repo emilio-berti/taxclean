@@ -16,15 +16,15 @@ pipe_function <- function(
     }
   } else if (after_gnr) {
     if (write) {
-      pipe <- paste0("tc_", x, "(ans$canonicalfull, write = TRUE)")
+      pipe <- paste0("tc_", x, "(d, write = TRUE)")
     } else {
-      pipe <- paste0("tc_", x, "(ans$canonicalfull)")
+      pipe <- paste0("tc_", x, "(d)")
     }
   } else {
     if (write) {
-      pipe <- paste0("tc_", x, "(ans$scientific_name, write = TRUE)")
+      pipe <- paste0("tc_", x, "(ans$search_name[is.na(ans$scientific_name)], write = TRUE)")
     } else {
-      pipe <- paste0("tc_", x, "(ans$scientific_name)")
+      pipe <- paste0("tc_", x, "(ans$search_name[is.na(ans$scientific_name)])")
     }
   }
   return(pipe)

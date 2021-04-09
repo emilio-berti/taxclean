@@ -4,7 +4,7 @@ tc_lcvplants <- function(
   d = NULL,
   write = FALSE
 ) {
-  if (is.null(d)) {
+  if (is.null(d) | length(d) == 0) {
     stop("No input species")
   }
   # the default parallel version works very slow
