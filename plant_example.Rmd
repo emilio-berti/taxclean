@@ -1,0 +1,101 @@
+---
+title: "Taxonomic harmonization example"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r laod libs and data, include=FALSE}
+library(tidyverse)
+library(rgnparser)
+#library(rfishbase) needs to update R
+library(lcvplants)
+
+# act <- read_csv("/home/eb97ziwi/Proj/taxclean/data/biotime_actinopt.csv")[[1]]
+plants <- read_csv("data/biotime_plants.csv")[[1]]
+```
+
+```{r dummy libs, eval=FALSE}
+library(tidyverse)
+library(rgnparser)
+#library(rfishbase) needs to update R
+library(lcvplants)
+
+# act <- read_csv("/home/eb97ziwi/Proj/taxclean/data/biotime_actinopt.csv")[[1]]
+plants <- unique(read_csv("data/biotime_plants.csv")[[1]])
+```
+
+## GNRparser
+
+We start by pre-processing the plant list using `rgnrparser`, which removes abbreviations such as *sp.* and author names, resulting only in a canonical binomial name. This step is important as LCVP matches only names resolved at the species level (David said so, let's check maybe).
+
+```{R gnrparser}
+parsed <- gn_parse_tidy(plants) %>% 
+  select(verbatim, canonicalfull) %>% 
+  mutate(changed = ifelse(verbatim != canonicalfull, TRUE, FALSE),
+         only_genus = modify(canonicalfull, function(x) {
+           len <- str_split(x, " ", simplify = TRUE) %>% 
+             length()
+           ifelse (len == 1, TRUE, FALSE)
+         }) %>% 
+           as.logical())
+# number of names changed
+parsed %>% 
+  group_by(changed) %>% 
+  tally()
+# example of changes
+parsed %>% filter(changed)
+```
+
+## LCVP
+
+We retain only species-level taxa and parse them to LCVP database using `lcvplants::LCVP()`.
+
+```{r LCVP}
+species <- parsed %>% 
+  filter(!only_genus) %>% 
+  pull(canonicalfull)
+# backbone
+plant_backbone <- tibble(bioTIME = species,
+                         LCVP = sapply(species, function(x) tryCatch(
+                           suppressMessages(lcvplants::LCVP(x)$LCVP_Accepted_Taxon),
+                           error = function(e) NA)))
+plant_backbone <- unnest(plant_backbone)
+```
+Let's have a look at what we got. First, how many species we find from the original species list.
+
+```{r results}
+plant_backbone <- plant_backbone %>% 
+  mutate(matched = ifelse(LCVP == "" | is.na(LCVP), FALSE, TRUE))
+plant_backbone %>% 
+  group_by(matched) %>% 
+  tally()
+message(plant_backbone %>% filter(matched) %>% nrow(),
+        "/", length(plants), " species found.")
+```
+We check how the new names compare to the original ones.
+
+```{r comparison}
+res <- tibble(bioTIME = plants) %>% 
+  left_join(parsed %>% 
+              transmute(bioTIME = verbatim,
+                        parsed = canonicalfull)) %>% 
+  left_join(plant_backbone %>% 
+              filter(matched) %>% 
+              transmute(parsed = bioTIME,
+                        LCVP))
+res
+```
+
+We can keep only the canonical binomial name using `rgneparser`, just to compare programmatically the difference.
+
+```{r remove authors}
+res <- res %>% mutate(LCVP_parsed = gn_parse_tidy(res$LCVP)$canonicalfull) %>% 
+  mutate(changed = ifelse(bioTIME == LCVP_parsed, FALSE, TRUE) %>% 
+           replace_na(FALSE))
+res %>% 
+  group_by(changed) %>% 
+  tally()
+res %>% filter(changed)
+```
+
