@@ -23,6 +23,7 @@ summary %>%
   geom_line() +
   geom_point() +
   scale_x_continuous(breaks = summary$step, labels = summary$package) +
+  scale_y_continuous(limits = c(0, 1.1)) +
   xlab("Package used at each sequential step") +
   ylab("Cumulative number of taxonomies found") +
   theme_classic() +
